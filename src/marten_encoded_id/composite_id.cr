@@ -28,9 +28,9 @@ module MartenEncodedId
     def self.parameterize(s : String) : String
       out = String.build do |io|
         prev_was_dash = false
-        s.each_char do |c|
-          if c.ascii_alphanumeric?
-            io << c.downcase
+        s.each_char do |char|
+          if char.ascii_alphanumeric?
+            io << char.downcase
             prev_was_dash = false
           elsif !prev_was_dash
             io << '-'

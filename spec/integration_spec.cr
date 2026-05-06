@@ -111,7 +111,7 @@ describe "MartenEncodedId end-to-end Marten model integration" do
       multi = Widget.encode_encoded_id([a.id.not_nil!, b.id.not_nil!, c.id.not_nil!])
       results = Widget.find_all_by_encoded_id(multi)
       results.size.should eq 3
-      results.map(&.id.not_nil!.to_i64).sort.should eq [a.id, b.id, c.id].map(&.not_nil!.to_i64).sort
+      results.map(&.id.not_nil!.to_i64).sort!.should eq [a.id, b.id, c.id].map(&.not_nil!.to_i64).sort!
     end
   end
 end

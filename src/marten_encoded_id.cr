@@ -49,9 +49,9 @@ module MartenEncodedId
     def self.encoded_id_coder : ::EncodedId::ReversibleId
       @@_encoded_id_coder ||= (
         {% if coder %}
-          ({{coder}})
+          ({{ coder }})
         {% else %}
-          ::MartenEncodedId.config.build_coder({{@type.name.stringify}})
+          ::MartenEncodedId.config.build_coder({{ @type.name.stringify }})
         {% end %}
       )
     end
@@ -116,12 +116,12 @@ module MartenEncodedId
 
     {% if slug_method %}
       # Slugged form: "<slug>--<encoded_id>". The slug text comes from
-      # calling `{{slug_method.id}}` on the instance — typically a method
+      # calling `{{ slug_method.id }}` on the instance — typically a method
       # like `def name_for_encoded_id_slug; name; end`.
       def slugged_encoded_id : ::String?
         e = encoded_id
         return nil if e.nil?
-        ::MartenEncodedId::SluggedId.build({{slug_method.id}}.to_s, e)
+        ::MartenEncodedId::SluggedId.build({{ slug_method.id }}.to_s, e)
       end
     {% end %}
 
