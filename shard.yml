@@ -10,7 +10,7 @@ license: MIT
 
 dependencies:
   encoded_id_cr:
-    path: ../encoded_id_cr
+    path: ../encoded-id-cr
   marten:
     path: ../marten-src
 
