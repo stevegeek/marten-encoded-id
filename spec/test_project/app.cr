@@ -1,3 +1,3 @@
-class EncodedIdMartenSpecApp < Marten::App
-  label :encoded_id_marten_spec
+class MartenEncodedIdSpecApp < Marten::App
+  label :marten_encoded_id_spec
 end

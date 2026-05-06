@@ -1,5 +1,5 @@
-module EncodedIdMarten
-  # Application-wide defaults, reachable via `EncodedIdMarten.configure`.
+module MartenEncodedId
+  # Application-wide defaults, reachable via `MartenEncodedId.configure`.
   # Mirrors the Ruby gem's `EncodedId::Rails::Configuration` so a model
   # written without explicit options uses these defaults plus a salt
   # derived from the class name (so two models with the same numeric pk
@@ -7,7 +7,7 @@ module EncodedIdMarten
   #
   # Typical setup in `config/initializers/encoded_id.cr`:
   #
-  #     EncodedIdMarten.configure do |c|
+  #     MartenEncodedId.configure do |c|
   #       c.salt           = ENV["ENCODED_ID_SALT"]
   #       c.encoder        = :hashids
   #       c.min_length     = 8
@@ -42,7 +42,7 @@ module EncodedIdMarten
     def derive_salt(class_name : String) : String
       base = salt
       raise ::EncodedId::SaltError.new(
-        "Configure EncodedIdMarten.config.salt before using a model that doesn't pass an explicit `coder:`"
+        "Configure MartenEncodedId.config.salt before using a model that doesn't pass an explicit `coder:`"
       ) if base.nil? || base.empty?
       "#{class_name}/#{base}"
     end
@@ -92,7 +92,7 @@ module EncodedIdMarten
     @@config
   end
 
-  # Block-form mutator: `EncodedIdMarten.configure { |c| c.salt = "..." }`
+  # Block-form mutator: `MartenEncodedId.configure { |c| c.salt = "..." }`
   def self.configure(&)
     yield @@config
   end

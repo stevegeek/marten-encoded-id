@@ -1,4 +1,4 @@
-module EncodedIdMarten
+module MartenEncodedId
   # Builds and parses "annotated" encoded ids of the form `<annotation>_<id>`,
   # e.g. `user_p5w9-z27j`. Mirrors the Ruby gem's `AnnotatedId` /
   # `AnnotatedIdParser` pair.

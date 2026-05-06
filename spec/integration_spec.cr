@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe "EncodedIdMarten end-to-end Marten model integration" do
+describe "MartenEncodedId end-to-end Marten model integration" do
   describe "Widget (explicit coder, no prefix, no slug_method)" do
     it "encodes the primary key on instances" do
       w = Widget.create!(name: "Cog")
@@ -72,7 +72,7 @@ describe "EncodedIdMarten end-to-end Marten model integration" do
     end
   end
 
-  describe "Sprocket (no explicit coder — uses EncodedIdMarten.config)" do
+  describe "Sprocket (no explicit coder — uses MartenEncodedId.config)" do
     it "round-trips encode/decode using the global config + class-derived salt" do
       s = Sprocket.create!(name: "Globally Configured")
       encoded = s.encoded_id.not_nil!

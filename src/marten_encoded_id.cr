@@ -1,8 +1,8 @@
 require "encoded_id_cr"
 require "marten"
 
-require "./encoded_id_marten/composite_id"
-require "./encoded_id_marten/configuration"
+require "./marten_encoded_id/composite_id"
+require "./marten_encoded_id/configuration"
 
 # Wires `encoded_id` semantics from the Ruby `encoded_id-rails` gem onto
 # Marten models: encode/decode class methods, finder methods that hide the
@@ -17,23 +17,23 @@ require "./encoded_id_marten/configuration"
 #       field :id, :big_int, primary_key: true, auto: true
 #       field :name, :string
 #
-#       EncodedIdMarten.use(
+#       MartenEncodedId.use(
 #         coder: EncodedId::ReversibleId.hashid(salt: "item-salt", min_hash_length: 8),
 #         prefix: "item",
 #       )
 #     end
 #
 #     # Or — set up once globally, models are terse:
-#     EncodedIdMarten.configure do |c|
+#     MartenEncodedId.configure do |c|
 #       c.salt = ENV["ENCODED_ID_SALT"]
 #       c.min_length = 8
 #     end
 #
 #     class Product < Marten::Model
 #       ...
-#       EncodedIdMarten.use(prefix: "product", slug_method: name)
+#       MartenEncodedId.use(prefix: "product", slug_method: name)
 #     end
-module EncodedIdMarten
+module MartenEncodedId
   VERSION = "0.1.0"
 
   # `coder`        — ReversibleId expression. Optional; falls back to the
@@ -51,7 +51,7 @@ module EncodedIdMarten
         {% if coder %}
           ({{coder}})
         {% else %}
-          ::EncodedIdMarten.config.build_coder({{@type.name.stringify}})
+          ::MartenEncodedId.config.build_coder({{@type.name.stringify}})
         {% end %}
       )
     end
@@ -74,8 +74,8 @@ module EncodedIdMarten
     # array. Returns [] (rather than raising) on garbage input — finder
     # methods then translate that to nil/RecordNotFound as appropriate.
     def self.decode_encoded_id(input : String) : Array(Int64)
-      payload = ::EncodedIdMarten::SluggedId.parse(input)
-      payload = ::EncodedIdMarten::AnnotatedId.parse(payload)
+      payload = ::MartenEncodedId::SluggedId.parse(input)
+      payload = ::MartenEncodedId::AnnotatedId.parse(payload)
       encoded_id_coder.decode(payload)
     rescue ::EncodedId::EncodedIdFormatError
       [] of ::Int64
@@ -111,7 +111,7 @@ module EncodedIdMarten
       h = encoded_id_hash
       return nil if h.nil?
       a = self.class.encoded_id_prefix
-      a.nil? ? h : ::EncodedIdMarten::AnnotatedId.build(a, h)
+      a.nil? ? h : ::MartenEncodedId::AnnotatedId.build(a, h)
     end
 
     {% if slug_method %}
@@ -121,7 +121,7 @@ module EncodedIdMarten
       def slugged_encoded_id : ::String?
         e = encoded_id
         return nil if e.nil?
-        ::EncodedIdMarten::SluggedId.build({{slug_method.id}}.to_s, e)
+        ::MartenEncodedId::SluggedId.build({{slug_method.id}}.to_s, e)
       end
     {% end %}
 
