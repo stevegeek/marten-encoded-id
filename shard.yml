@@ -13,3 +13,7 @@ dependencies:
     path: ../encoded_id_cr
   marten:
     path: ../marten-src
+
+development_dependencies:
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
