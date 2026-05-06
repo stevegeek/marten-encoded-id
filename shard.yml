@@ -10,9 +10,9 @@ license: MIT
 
 dependencies:
   encoded_id_cr:
-    path: ../encoded-id-cr
+    github: stevegeek/encoded-id-cr
   marten:
-    path: ../marten-src
+    github: martenframework/marten
 
 development_dependencies:
   sqlite3:
