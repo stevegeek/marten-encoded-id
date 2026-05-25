@@ -12,9 +12,13 @@ require "./test_project/models/**"
 
 # Configure global MartenEncodedId defaults for the spec that exercises
 # the no-explicit-coder form.
+#
+# L12 — `min_length` stays at the production default (8) here so the
+# spec suite exercises the actual shipped default. Individual specs that
+# need a shorter hash override the per-coder length on their model
+# (see `widget.cr`'s `min_hash_length: 6`).
 MartenEncodedId.configure do |c|
   c.salt = "spec-global-salt"
-  c.min_length = 6
 end
 
 Marten.configure :test do |config|

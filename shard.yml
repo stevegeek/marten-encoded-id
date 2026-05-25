@@ -4,6 +4,16 @@ version: 0.1.0
 authors:
   - Stephen Ierodiaconou <stevegeek@gmail.com>
 
+description: |
+  Rails-style encoded-id helpers for Marten models. A thin macro layer
+  over `encoded_id_cr` that hides integer primary keys behind reversible,
+  salt-derived, URL-safe tokens (Hashids or Sqids) with optional
+  annotation prefixes and human-readable slugs.
+
+repository: https://github.com/stevegeek/marten-encoded-id
+homepage: https://github.com/stevegeek/marten-encoded-id
+documentation: https://github.com/stevegeek/marten-encoded-id#readme
+
 crystal: '>= 1.20.1'
 
 license: MIT
