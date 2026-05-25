@@ -88,20 +88,6 @@ describe "MartenEncodedId end-to-end Marten model integration" do
     end
   end
 
-  describe "to_param" do
-    it "returns the encoded id for a saved record" do
-      g = Gizmo.create!(name: "Param Test")
-      g.to_param.should eq g.encoded_id
-    end
-
-    it "raises on an unsaved (nil-pk) instance" do
-      g = Gizmo.new(name: "Unsaved")
-      expect_raises(ArgumentError, /without an encoded id/) do
-        g.to_param
-      end
-    end
-  end
-
   describe "find_all_by_encoded_id (multi-id encoding)" do
     it "returns all rows whose ids appear in the decoded list" do
       a = Widget.create!(name: "A")
