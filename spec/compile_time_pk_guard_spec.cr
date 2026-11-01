@@ -25,23 +25,23 @@ private def with_dummy_compile(model_body : String, &)
   # resolves the shard's own source (which itself pulls in `marten` via
   # the lib/ symlink set up by `shards install`).
   source = <<-CR
-  require "../src/marten_encoded_id"
+    require "../src/marten_encoded_id"
 
-  class MartenEncodedIdPkGuardSpecApp < Marten::App
-    label :marten_encoded_id_pk_guard_spec
-  end
-
-  #{model_body}
-
-  Marten.configure :test do |config|
-    config.secret_key = "_x_"
-    config.installed_apps = [MartenEncodedIdPkGuardSpecApp]
-    config.database do |db|
-      db.backend = :sqlite
-      db.name = ":memory:"
+    class MartenEncodedIdPkGuardSpecApp < Marten::App
+      label :marten_encoded_id_pk_guard_spec
     end
-  end
-  CR
+
+    #{model_body}
+
+    Marten.configure :test do |config|
+      config.secret_key = "_x_"
+      config.installed_apps = [MartenEncodedIdPkGuardSpecApp]
+      config.database do |db|
+        db.backend = :sqlite
+        db.name = ":memory:"
+      end
+    end
+    CR
 
   tmp = File.tempname("marten_encoded_id_pk_guard_", ".cr", dir: "#{SHARD_ROOT}/spec")
   File.write(tmp, source)
@@ -70,7 +70,7 @@ describe "H2: compile-time PK type guard" do
           coder: ::EncodedId::ReversibleId.hashid(salt: "x", min_hash_length: 6),
         )
       end
-    CR
+      CR
       status.success?.should be_false
       output.should match /MartenEncodedId\.use/
       output.should match /uuid/i
@@ -85,7 +85,7 @@ describe "H2: compile-time PK type guard" do
           coder: ::EncodedId::ReversibleId.hashid(salt: "x", min_hash_length: 6),
         )
       end
-    CR
+      CR
       status.success?.should be_false
       output.should match /MartenEncodedId\.use/
       output.should match /string/i
@@ -100,7 +100,7 @@ describe "H2: compile-time PK type guard" do
           coder: ::EncodedId::ReversibleId.hashid(salt: "x", min_hash_length: 6),
         )
       end
-    CR
+      CR
       status.success?.should be_true
     end
   end
@@ -113,7 +113,7 @@ describe "H2: compile-time PK type guard" do
           coder: ::EncodedId::ReversibleId.hashid(salt: "x", min_hash_length: 6),
         )
       end
-    CR
+      CR
       status.success?.should be_true
     end
   end
