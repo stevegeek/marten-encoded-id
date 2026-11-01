@@ -36,7 +36,7 @@ module MartenEncodedId
     # be a strict superset of the default separators while still narrow
     # enough to avoid swallowing path-traversal characters.
     class Parameter < ::Marten::Routing::Parameter::Base
-      def dumps(value) : Nil | ::String
+      def dumps(value) : ::String?
         value.as?(::String)
       end
 
@@ -53,14 +53,14 @@ module MartenEncodedId
       # really match" signal — calling `find_by_encoded_id` on a `nil`
       # would have to be guarded by the handler anyway.
       def loads(value : ::String) : ::String?
-        return nil if value.empty?
+        return if value.empty?
         # Prefer the slugged check first — `--` is more specific than
         # `_` and any input containing `--` was very likely meant as a
         # slugged id.
         if value.includes?("--")
-          return nil unless ::MartenEncodedId::SluggedId.valid?(value)
+          return unless ::MartenEncodedId::SluggedId.valid?(value)
         else
-          return nil unless ::MartenEncodedId::AnnotatedId.valid?(value)
+          return unless ::MartenEncodedId::AnnotatedId.valid?(value)
         end
         value
       end

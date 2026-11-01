@@ -5,3 +5,9 @@ Naming/BlockParameterName:
 Lint/NotNil:
   Excluded:
     - spec/**
+
+# spec/test_project holds the Marten app and models loaded by spec_helper.cr;
+# these are support files, not specs, so they must not take a `_spec` suffix.
+Lint/SpecFilename:
+  Excluded:
+    - spec/test_project/**/*.cr
